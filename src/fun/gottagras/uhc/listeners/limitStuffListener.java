@@ -156,6 +156,16 @@ public class limitStuffListener implements Listener {
     public void onPickup(PlayerPickupItemEvent event)
     {
         if (!main.uhc_stuffLimit) return;
+        for (Player player: main.noob_list)
+        {
+            if (player != null)
+            {
+                if (player.getDisplayName().equals(event.getPlayer().getDisplayName()))
+                {
+                    return;
+                }
+            }
+        }
         limitEnchant(event.getItem().getItemStack());
     }
 
@@ -163,6 +173,16 @@ public class limitStuffListener implements Listener {
     public void onDrop(PlayerDropItemEvent event)
     {
         if (!main.uhc_stuffLimit) return;
+        for (Player player: main.noob_list)
+        {
+            if (player != null)
+            {
+                if (player.getDisplayName().equals(event.getPlayer().getDisplayName()))
+                {
+                    return;
+                }
+            }
+        }
         limitEnchant(event.getItemDrop().getItemStack());
     }
 
@@ -170,6 +190,16 @@ public class limitStuffListener implements Listener {
     public void onClick(PlayerInteractEvent event)
     {
         if (!main.uhc_stuffLimit) return;
+        for (Player player: main.noob_list)
+        {
+            if (player != null)
+            {
+                if (player.getDisplayName().equals(event.getPlayer().getDisplayName()))
+                {
+                    return;
+                }
+            }
+        }
         ItemStack itemStack = event.getItem();
         if (itemStack == null) return;
         limitEnchant(itemStack);
@@ -192,6 +222,16 @@ public class limitStuffListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event)
     {
         if (!main.uhc_stuffLimit) return;
+        for (Player player: main.noob_list)
+        {
+            if (player != null)
+            {
+                if (player.getDisplayName().equals(((Player)event.getWhoClicked()).getDisplayName()))
+                {
+                    return;
+                }
+            }
+        }
         limitEnchant(event.getCurrentItem());
         ItemStack itemStack = event.getCurrentItem();
         if (itemStack == null) return;

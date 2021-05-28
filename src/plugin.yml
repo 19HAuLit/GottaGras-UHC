@@ -24,6 +24,9 @@ commands:
   limit:
     permission: player.use
     description: UHC StuffLimit Config
+  noob:
+    permission: host.use
+    description: Liste des noobs qui sont imunisés de la limite de stuff
 permissions:
   player.use:
     description: Players permisssions

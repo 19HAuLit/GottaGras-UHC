@@ -52,6 +52,7 @@ public class Main extends JavaPlugin
         getCommand("revive").setExecutor(new reviveCommand(this));
         getCommand("force").setExecutor(new forceCommand(this));
         getCommand("limit").setExecutor(new limitCommand(this));
+        getCommand("noob").setExecutor(new noobCommand(this));
 
         // SCOREBOARD
         Bukkit.getScheduler().runTaskTimer(this, new scoreBoard(this),0,20);
@@ -95,6 +96,8 @@ public class Main extends JavaPlugin
     public int uhc_real_player_number = 0;
     public Player[] uhc_real_player_list = new Player[1024];
     public int uhc_join_tracker = 0;
+    public Player[] noob_list = new Player[1024];
+    public int noob_tracker = 0;
 
     // LIMIT DE STUFF
     public int uhc_stuffLimit_diamondArmor = 2;
