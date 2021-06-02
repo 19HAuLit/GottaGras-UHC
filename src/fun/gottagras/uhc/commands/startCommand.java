@@ -170,7 +170,7 @@ public class startCommand implements CommandExecutor {
                 worldBorder.setWarningTime(1);
 
                 worldNetherBorder.setCenter(0, 0);
-                worldNetherBorder.setSize(300);
+                worldNetherBorder.setSize(75);
                 worldNetherBorder.setDamageAmount(1);
                 worldNetherBorder.setDamageBuffer(1);
                 worldNetherBorder.setWarningDistance(1);
@@ -193,7 +193,7 @@ public class startCommand implements CommandExecutor {
                 worldBorder.setWarningTime(1);
 
                 worldNetherBorder.setCenter(0, 0);
-                worldNetherBorder.setSize(800);
+                worldNetherBorder.setSize(200);
                 worldNetherBorder.setDamageAmount(1);
                 worldNetherBorder.setDamageBuffer(1);
                 worldNetherBorder.setWarningDistance(1);
@@ -216,7 +216,7 @@ public class startCommand implements CommandExecutor {
                 worldBorder.setWarningTime(1);
 
                 worldNetherBorder.setCenter(0, 0);
-                worldNetherBorder.setSize(200* main.uhc_player_number);
+                worldNetherBorder.setSize(50* main.uhc_player_number);
                 worldNetherBorder.setDamageAmount(1);
                 worldNetherBorder.setDamageBuffer(1);
                 worldNetherBorder.setWarningDistance(1);

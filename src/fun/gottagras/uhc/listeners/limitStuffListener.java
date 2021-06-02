@@ -209,13 +209,14 @@ public class limitStuffListener implements Listener {
             if (itemStack.getType() == Material.DIAMOND_HELMET || itemStack.getType() == Material.DIAMOND_CHESTPLATE || itemStack.getType() == Material.DIAMOND_LEGGINGS || itemStack.getType() == Material.DIAMOND_BOOTS)
             {
                 event.setCancelled(diamondArmorLimit(event.getPlayer()) >= main.uhc_stuffLimit_diamondArmor);
+                event.getPlayer().updateInventory();
             }
             if (itemStack.getType() == Material.IRON_HELMET || itemStack.getType() == Material.IRON_CHESTPLATE || itemStack.getType() == Material.IRON_LEGGINGS || itemStack.getType() == Material.IRON_BOOTS)
             {
                 event.setCancelled(ironArmorLimit(event.getPlayer()) >= main.uhc_stuffLimit_ironArmor);
+                event.getPlayer().updateInventory();
             }
         }
-        event.getPlayer().updateInventory();
     }
 
     @EventHandler

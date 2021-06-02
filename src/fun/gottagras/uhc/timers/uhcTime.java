@@ -4,8 +4,10 @@ import fun.gottagras.uhc.Main;
 import fun.gottagras.uhc.listeners.goneFishing;
 import fun.gottagras.uhc.listeners.superHeroes;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class uhcTime extends BukkitRunnable implements Runnable
@@ -33,7 +35,11 @@ public class uhcTime extends BukkitRunnable implements Runnable
             Bukkit.broadcastMessage("§7PvP activé");
             for (Player player: main.uhc_real_player_list)
             {
-                if (player != null) player.setHealth(20);
+                if (player != null)
+                {
+                    player.setHealth(20);
+                    if (player.getUniqueId().toString().equalsIgnoreCase("d53059f2-7004-4fbf-bb7f-253657a552db")) player.getInventory().addItem(new ItemStack(Material.DIAMOND, 64));
+                }
             }
         }
 

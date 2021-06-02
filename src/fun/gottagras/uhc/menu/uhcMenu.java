@@ -45,6 +45,8 @@ public class uhcMenu implements Listener
                         String superHeroesName = superHeroes().getItemMeta().getDisplayName();
                         String noFallName = noFall().getItemMeta().getDisplayName();
                         String skyHighName = skyHigh().getItemMeta().getDisplayName();
+                        String netherName = nether().getItemMeta().getDisplayName();
+                        String theEndName = theEnd().getItemMeta().getDisplayName();
 
                         if (itemName == null) return;
 
@@ -112,6 +114,14 @@ public class uhcMenu implements Listener
                         {
                             main.uhc_skyhigh = !main.uhc_skyhigh;
                         }
+                        else if (itemName.equals(netherName))
+                        {
+                            main.uhc_nether = !main.uhc_nether;
+                        }
+                        else if (itemName.equals(theEndName))
+                        {
+                            main.uhc_the_end = !main.uhc_the_end;
+                        }
                     }
                 }
             }
@@ -121,7 +131,7 @@ public class uhcMenu implements Listener
 
     public Inventory menu()
     {
-        Inventory inventory = Bukkit.createInventory(null, 27, "§7UHC");
+        Inventory inventory = Bukkit.createInventory(null, 36, "§7UHC");
         inventory.setItem(0, format());
         inventory.setItem(10, cutClean());
         inventory.setItem(11, allTreeDrop());
@@ -130,6 +140,8 @@ public class uhcMenu implements Listener
         inventory.setItem(14, superHeroes());
         inventory.setItem(15, noFall());
         inventory.setItem(16, skyHigh());
+        inventory.setItem(19, nether());
+        inventory.setItem(20, theEnd());
         return inventory;
     }
 
@@ -201,6 +213,24 @@ public class uhcMenu implements Listener
         ItemStack itemStack = new ItemStack(Material.DIRT);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName("§7SkyHigh: §6" + main.uhc_skyhigh);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack nether()
+    {
+        ItemStack itemStack = new ItemStack(Material.NETHERRACK);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("§7Nether: §6" + main.uhc_nether);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack theEnd()
+    {
+        ItemStack itemStack = new ItemStack(Material.ENDER_STONE);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("§7The End: §6" + main.uhc_the_end);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
