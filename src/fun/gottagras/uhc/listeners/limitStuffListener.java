@@ -101,6 +101,39 @@ public class limitStuffListener implements Listener {
         return itemStack.getType() == Material.GOLDEN_APPLE && itemStack.getData().toString().equals("GOLDEN_APPLE(1)") && !main.uhc_stuffLimit_notchApple;
     }
 
+    public boolean potion(ItemStack itemStack)
+    {
+        if (itemStack == null) return false;
+
+        if (itemStack.getType() == Material.POTION && !main.uhc_stuffLimit_potion) return true;
+
+        // STRENGH
+        if (itemStack.getData().toString().equalsIgnoreCase("POTION(73)") || itemStack.getData().toString().equalsIgnoreCase("POTION(41)") || itemStack.getData().toString().equalsIgnoreCase("POTION(9)"))
+        {
+            return !main.uhc_stuffLimit_potionStrength;
+        }
+
+        // POISON
+        else if (itemStack.getData().toString().equalsIgnoreCase("POTION(68)") || itemStack.getData().toString().equalsIgnoreCase("POTION(36)") || itemStack.getData().toString().equalsIgnoreCase("POTION(4)"))
+        {
+            return !main.uhc_stuffLimit_potionPoison;
+        }
+
+        // INSTANT DAMAGE
+        else if (itemStack.getData().toString().equalsIgnoreCase("POTION(76)") || itemStack.getData().toString().equalsIgnoreCase("POTION(44)"))
+        {
+            return !main.uhc_stuffLimit_potionInstantDamage;
+        }
+
+        // LEVEL II
+        else if (itemStack.getData().toString().equalsIgnoreCase("POTION(37)") || itemStack.getData().toString().equalsIgnoreCase("POTION(41)") || itemStack.getData().toString().equalsIgnoreCase("POTION(44)") || itemStack.getData().toString().equalsIgnoreCase("POTION(36)") || itemStack.getData().toString().equalsIgnoreCase("POTION(34)") || itemStack.getData().toString().equalsIgnoreCase("POTION(43)") || itemStack.getData().toString().equalsIgnoreCase("POTION(33)"))
+        {
+            return !main.uhc_stuffLimit_potionLevelII;
+        }
+
+        return false;
+    }
+
     public int diamondArmorLimit(Player player)
     {
         ItemStack helmetSlot = player.getInventory().getHelmet();
@@ -158,7 +191,7 @@ public class limitStuffListener implements Listener {
     {
         if (!main.uhc_stuffLimit) return;
         Material material = event.getItem().getType();
-        event.setCancelled(material == Material.DIAMOND_HELMET || material == Material.DIAMOND_CHESTPLATE || material == Material.DIAMOND_LEGGINGS || material == Material.DIAMOND_BOOTS || material == Material.IRON_HELMET || material == Material.IRON_CHESTPLATE || material == Material.IRON_LEGGINGS || material == Material.IRON_BOOTS);
+        event.setCancelled(material == Material.POTION || material == Material.DIAMOND_HELMET || material == Material.DIAMOND_CHESTPLATE || material == Material.DIAMOND_LEGGINGS || material == Material.DIAMOND_BOOTS || material == Material.IRON_HELMET || material == Material.IRON_CHESTPLATE || material == Material.IRON_LEGGINGS || material == Material.IRON_BOOTS);
     }
 
     @EventHandler
@@ -214,7 +247,13 @@ public class limitStuffListener implements Listener {
         limitEnchant(itemStack);
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
         {
-            event.setCancelled(notchApple(itemStack));
+            // NOTCH APPLE
+            if (itemStack.getType() == Material.GOLDEN_APPLE)event.setCancelled(notchApple(itemStack));
+
+            // POTION
+            if (itemStack.getType() == Material.POTION) event.setCancelled(potion(itemStack));
+
+            // ARMOR
             if (itemStack.getType() == Material.DIAMOND_HELMET || itemStack.getType() == Material.DIAMOND_CHESTPLATE || itemStack.getType() == Material.DIAMOND_LEGGINGS || itemStack.getType() == Material.DIAMOND_BOOTS)
             {
                 event.setCancelled(diamondArmorLimit(event.getPlayer()) >= main.uhc_stuffLimit_diamondArmor);

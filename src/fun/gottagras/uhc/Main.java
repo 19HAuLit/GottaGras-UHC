@@ -56,6 +56,7 @@ public class Main extends JavaPlugin
         getCommand("limit").setExecutor(new limitCommand(this));
         getCommand("noob").setExecutor(new noobCommand(this));
         getCommand("invsee").setExecutor(new invseeCommand(this));
+        getCommand("item").setExecutor(new itemCommand(this));
 
         // SCOREBOARD
         Bukkit.getScheduler().runTaskTimer(this, new scoreBoard(this),0,20);
@@ -119,7 +120,8 @@ public class Main extends JavaPlugin
     public boolean uhc_stuffLimit_potion = true;
     public boolean uhc_stuffLimit_potionStrength = false;
     public boolean uhc_stuffLimit_potionPoison = false;
-    public int uhc_stuffLimit_potionLevel = 1;
+    public boolean uhc_stuffLimit_potionInstantDamage = false;
+    public boolean uhc_stuffLimit_potionLevelII = false;
 
     public boolean uhc_stuffLimit_notchApple = false;
 

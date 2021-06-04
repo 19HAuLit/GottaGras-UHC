@@ -31,6 +31,9 @@ commands:
     permission: player.use
     description: Ouvrir l'inventaire d'un joueur
     aliases: inv
+  item:
+    permission: player.use
+    description: Obtenir les informations d'un item
 permissions:
   player.use:
     description: Players permisssions

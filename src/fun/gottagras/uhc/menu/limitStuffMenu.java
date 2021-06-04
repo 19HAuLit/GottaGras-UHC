@@ -45,6 +45,11 @@ public class limitStuffMenu implements Listener {
                         String powerName = power().getItemMeta().getDisplayName();
                         String flameName = flame().getItemMeta().getDisplayName();
                         String notchAppleName = notchApple().getItemMeta().getDisplayName();
+                        String potionName = potion().getItemMeta().getDisplayName();
+                        String potionLevelIIName = potionLevelII().getItemMeta().getDisplayName();
+                        String strengthPotionName = strengthPotion().getItemMeta().getDisplayName();
+                        String poisonPotionName = poisonPotion().getItemMeta().getDisplayName();
+                        String instantDamagePotionName = instantDamagePotion().getItemMeta().getDisplayName();
 
                         if (itemName == null) return;
 
@@ -90,6 +95,26 @@ public class limitStuffMenu implements Listener {
                         {
                             main.uhc_stuffLimit_notchApple = !main.uhc_stuffLimit_notchApple;
                         }
+                        else if (itemName.equals(potionName))
+                        {
+                            main.uhc_stuffLimit_potion = !main.uhc_stuffLimit_potion;
+                        }
+                        else if (itemName.equals(potionLevelIIName))
+                        {
+                            main.uhc_stuffLimit_potionLevelII = !main.uhc_stuffLimit_potionLevelII;
+                        }
+                        else if (itemName.equals(strengthPotionName))
+                        {
+                            main.uhc_stuffLimit_potionStrength = !main.uhc_stuffLimit_potionStrength;
+                        }
+                        else if (itemName.equals(poisonPotionName))
+                        {
+                            main.uhc_stuffLimit_potionPoison = !main.uhc_stuffLimit_potionPoison;
+                        }
+                        else if (itemName.equals(instantDamagePotionName))
+                        {
+                            main.uhc_stuffLimit_potionInstantDamage = !main.uhc_stuffLimit_potionInstantDamage;
+                        }
                     }
                 }
             }
@@ -113,6 +138,12 @@ public class limitStuffMenu implements Listener {
 
         inventory.setItem(24, power());
         inventory.setItem(25, flame());
+
+        inventory.setItem(28, strengthPotion());
+        inventory.setItem(29, potionLevelII());
+        inventory.setItem(31, potion());
+        inventory.setItem(33, poisonPotion());
+        inventory.setItem(34, instantDamagePotion());
 
         return inventory;
     }
@@ -200,6 +231,51 @@ public class limitStuffMenu implements Listener {
         ItemStack itemStack = new ItemStack(Material.GOLDEN_APPLE, 1, (short)1);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName("§7Notch Apple: §6" + main.uhc_stuffLimit_notchApple);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack potion()
+    {
+        ItemStack itemStack = new ItemStack(Material.POTION, 1, (short)1);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("§7Potion: §6" + main.uhc_stuffLimit_potion);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack strengthPotion()
+    {
+        ItemStack itemStack = new ItemStack(Material.POTION, 1, (short)9);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("§7Force: §6" + main.uhc_stuffLimit_potionStrength);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack poisonPotion()
+    {
+        ItemStack itemStack = new ItemStack(Material.POTION, 1, (short)4);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("§7Poison: §6" + main.uhc_stuffLimit_potionPoison);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack instantDamagePotion()
+    {
+        ItemStack itemStack = new ItemStack(Material.POTION, 1, (short)44);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("§7Instant Damage: §6" + main.uhc_stuffLimit_potionInstantDamage);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack potionLevelII()
+    {
+        ItemStack itemStack = new ItemStack(Material.POTION, 1, (short)33);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("§7Potion Level II: §6" + main.uhc_stuffLimit_potionLevelII);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }

@@ -41,7 +41,7 @@ public class invseeCommand implements CommandExecutor {
                 else commandSender.sendMessage("§6/invsee <player>");
             }
         }
-        else commandSender.sendMessage("La console ne peut pas faire cette commande");
+        else commandSender.sendMessage("§6La console ne peut pas faire cette commande");
         return false;
     }
 }
