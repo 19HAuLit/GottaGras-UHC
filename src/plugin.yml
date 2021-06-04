@@ -27,6 +27,10 @@ commands:
   noob:
     permission: host.use
     description: Liste des noobs qui sont imunisés de la limite de stuff
+  invsee:
+    permission: player.use
+    description: Ouvrir l'inventaire d'un joueur
+    aliases: inv
 permissions:
   player.use:
     description: Players permisssions

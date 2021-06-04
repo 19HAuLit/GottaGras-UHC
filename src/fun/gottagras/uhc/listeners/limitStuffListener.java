@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -150,6 +151,14 @@ public class limitStuffListener implements Listener {
             if (bootsSlot.getType() == Material.IRON_BOOTS) ironArmorNumber ++;
         }
         return ironArmorNumber;
+    }
+
+    @EventHandler
+    public void onDispense(BlockDispenseEvent event)
+    {
+        if (!main.uhc_stuffLimit) return;
+        Material material = event.getItem().getType();
+        event.setCancelled(material == Material.DIAMOND_HELMET || material == Material.DIAMOND_CHESTPLATE || material == Material.DIAMOND_LEGGINGS || material == Material.DIAMOND_BOOTS || material == Material.IRON_HELMET || material == Material.IRON_CHESTPLATE || material == Material.IRON_LEGGINGS || material == Material.IRON_BOOTS);
     }
 
     @EventHandler

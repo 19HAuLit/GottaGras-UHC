@@ -26,10 +26,12 @@ public class Main extends JavaPlugin
         getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         INSTANCE = this;
 
-        // PATCH FORCE
+        // PATCH
         getServer().getPluginManager().registerEvents(new strengthPatch(this), this);
 
         // LISTERNERS
+        getServer().getPluginManager().registerEvents(new the_end(this), this);
+        getServer().getPluginManager().registerEvents(new nether(this), this);
         getServer().getPluginManager().registerEvents(new nofall(this), this);
         getServer().getPluginManager().registerEvents(new superHeroes(this), this);
         getServer().getPluginManager().registerEvents(new limitStuffMenu(this), this);
@@ -53,6 +55,7 @@ public class Main extends JavaPlugin
         getCommand("force").setExecutor(new forceCommand(this));
         getCommand("limit").setExecutor(new limitCommand(this));
         getCommand("noob").setExecutor(new noobCommand(this));
+        getCommand("invsee").setExecutor(new invseeCommand(this));
 
         // SCOREBOARD
         Bukkit.getScheduler().runTaskTimer(this, new scoreBoard(this),0,20);
@@ -83,6 +86,8 @@ public class Main extends JavaPlugin
     public boolean uhc_superHeroes = false;
     public boolean uhc_nofall = false;
     public boolean uhc_skyhigh = false;
+    public boolean uhc_nether = true;
+    public boolean uhc_the_end = true;
 
     // UHC TIME
     public int uhc_invincible = 30;

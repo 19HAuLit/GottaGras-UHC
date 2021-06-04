@@ -4,12 +4,14 @@ import fun.gottagras.uhc.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class mainListener implements Listener {
     private Main main;
@@ -106,5 +108,8 @@ public class mainListener implements Listener {
                 }
             }
         }
+
+        // DROP GAPPLE ON DEATH
+        player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GOLDEN_APPLE));
     }
 }
