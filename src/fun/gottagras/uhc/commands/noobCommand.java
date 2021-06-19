@@ -20,7 +20,6 @@ public class noobCommand implements CommandExecutor {
         if (strings.length >= 1)
         {
             Player noob = null;
-            boolean isIn = false;
             for (Player player: Bukkit.getOnlinePlayers())
             {
                 if (player.getDisplayName().equals(strings[0]))
@@ -28,25 +27,18 @@ public class noobCommand implements CommandExecutor {
                     noob = player;
                 }
             }
-            int i = 0;
-            for (Player player: main.noob_list)
+            if (noob != null)
             {
-                if (player != null)
+                if (main.noob_list.contains(noob.getUniqueId().toString()))
                 {
-                    if (player.getDisplayName().equals(strings[0]))
-                    {
-                        isIn = true;
-                        main.noob_list[i] = null;
-                        commandSender.sendMessage("§6" + strings[0] + " a été retiré de la NoobList");
-                    }
+                    main.noob_list.remove(noob.getUniqueId().toString());
+                    Bukkit.broadcastMessage("§7[§6-§7] NoobList: §6" + noob.getDisplayName());
                 }
-                i++;
-            }
-            if (!isIn)
-            {
-                main.noob_list[main.noob_tracker] = noob;
-                main.noob_tracker++;
-                commandSender.sendMessage("§6" + strings[0] + " a été ajouté de la NoobList");
+                else
+                {
+                    main.noob_list.add(noob.getUniqueId().toString());
+                    Bukkit.broadcastMessage("§7[§6+§7] NoobList: §6" + noob.getDisplayName());
+                }
             }
         }
         return false;

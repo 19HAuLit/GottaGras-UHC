@@ -34,6 +34,10 @@ commands:
   item:
     permission: player.use
     description: Obtenir les informations d'un item
+  broadcast:
+    permission: host.use
+    description: Commande de broadcast
+    aliases: bc
 permissions:
   player.use:
     description: Players permisssions

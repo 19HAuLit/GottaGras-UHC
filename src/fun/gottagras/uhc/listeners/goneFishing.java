@@ -1,6 +1,7 @@
 package fun.gottagras.uhc.listeners;
 
 import fun.gottagras.uhc.Main;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Item;
@@ -40,9 +41,9 @@ public class goneFishing implements Listener
         {
             if (main.uhc_time%60 == 0)
             {
-                for (Player player:main.uhc_real_player_list)
+                for (Player player: Bukkit.getOnlinePlayers())
                 {
-                    if (player != null)
+                    if (main.uhc_real_player_list.contains(player.getUniqueId().toString()))
                     {
                         if (player.getLocation().getY() < 200)
                         {

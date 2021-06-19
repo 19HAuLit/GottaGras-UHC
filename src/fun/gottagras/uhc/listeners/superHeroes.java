@@ -30,6 +30,8 @@ public class superHeroes implements Listener {
                 // DOUBLE HEAL
                 case 0:
                     player.setHealthScale(40);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST, 20*60*60*24, 4));
+                    player.setHealth(40);
                     player.sendMessage("§7Vous venez d'obtenir§6 Double Heal");
                     break;
                 // RESISTANCE

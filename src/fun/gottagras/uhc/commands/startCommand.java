@@ -142,11 +142,10 @@ public class startCommand implements CommandExecutor {
         // ADD PLAYERS TO THE GAME
         for (Player player: Bukkit.getOnlinePlayers())
         {
-            main.uhc_player_list[main.uhc_player_number] = player;
+            main.uhc_player_list.add(player.getUniqueId().toString());
             main.uhc_player_number ++;
-            main.uhc_real_player_list[main.uhc_real_player_number] = player;
+            main.uhc_real_player_list.add(player.getUniqueId().toString());
             main.uhc_real_player_number ++;
-            main.uhc_join_tracker ++;
         }
 
         // SET WORLD BORDER
@@ -209,21 +208,21 @@ public class startCommand implements CommandExecutor {
 
             default:
                 worldBorder.setCenter(0, 0);
-                worldBorder.setSize(200* main.uhc_player_number);
+                worldBorder.setSize(300* main.uhc_player_number);
                 worldBorder.setDamageAmount(1);
                 worldBorder.setDamageBuffer(1);
                 worldBorder.setWarningDistance(1);
                 worldBorder.setWarningTime(1);
 
                 worldNetherBorder.setCenter(0, 0);
-                worldNetherBorder.setSize(50* main.uhc_player_number);
+                worldNetherBorder.setSize(150* main.uhc_player_number);
                 worldNetherBorder.setDamageAmount(1);
                 worldNetherBorder.setDamageBuffer(1);
                 worldNetherBorder.setWarningDistance(1);
                 worldNetherBorder.setWarningTime(1);
 
                 worldTheEndBorder.setCenter(0, 0);
-                worldTheEndBorder.setSize(200* main.uhc_player_number);
+                worldTheEndBorder.setSize(300* main.uhc_player_number);
                 worldTheEndBorder.setDamageAmount(1);
                 worldTheEndBorder.setDamageBuffer(1);
                 worldTheEndBorder.setWarningDistance(1);
@@ -232,9 +231,9 @@ public class startCommand implements CommandExecutor {
         }
 
         // TP PLAYER + GIVE STUFF
-        for (Player player: main.uhc_player_list)
+        for (Player player: Bukkit.getOnlinePlayers())
         {
-            if (player != null)
+            if (main.uhc_player_list.contains(player.getUniqueId().toString()))
             {
                 main.randomTp(player);
                 switch (main.uhc_format)

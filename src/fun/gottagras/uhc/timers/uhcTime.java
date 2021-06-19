@@ -33,11 +33,11 @@ public class uhcTime extends BukkitRunnable implements Runnable
         {
             main.uhc_state = "pvp";
             Bukkit.broadcastMessage("§7PvP activé");
-            for (Player player: main.uhc_real_player_list)
+            for (Player player: Bukkit.getOnlinePlayers())
             {
-                if (player != null)
+                if (main.uhc_player_list.contains(player.getUniqueId().toString()))
                 {
-                    player.setHealth(20);
+                    player.setHealth(player.getHealthScale());
                     if (player.getUniqueId().toString().equalsIgnoreCase("d53059f2-7004-4fbf-bb7f-253657a552db")) player.getInventory().addItem(new ItemStack(Material.DIAMOND, 64));
                 }
             }
@@ -64,9 +64,9 @@ public class uhcTime extends BukkitRunnable implements Runnable
             main.uhc_state = "meetup";
             Bukkit.broadcastMessage("§7Fin du mouvement de la border");
             Bukkit.getWorld("uhc").getWorldBorder().setSize(100);
-            for (Player player: main.uhc_real_player_list)
+            for (Player player: Bukkit.getOnlinePlayers())
             {
-                if (player != null) player.giveExpLevels(667);
+                if (main.uhc_player_list.contains(player.getUniqueId().toString())) player.giveExpLevels(667);
             }
         }
 
@@ -80,9 +80,9 @@ public class uhcTime extends BukkitRunnable implements Runnable
         if (main.uhc_superHeroes && main.uhc_invincible == main.uhc_time)
         {
 
-            for (Player player: main.uhc_real_player_list)
+            for (Player player:Bukkit.getOnlinePlayers())
             {
-                new superHeroes(main).giveEffects(player);
+                if (main.uhc_player_list.contains(player.getUniqueId().toString())) new superHeroes(main).giveEffects(player);
             }
         }
 

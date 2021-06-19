@@ -12,6 +12,7 @@ import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.entity.ItemMergeEvent;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerEvent;
@@ -22,7 +23,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.material.MaterialData;
 
 import javax.xml.crypto.Data;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 public class limitStuffListener implements Listener {
@@ -198,16 +201,7 @@ public class limitStuffListener implements Listener {
     public void onPickup(PlayerPickupItemEvent event)
     {
         if (!main.uhc_stuffLimit) return;
-        for (Player player: main.noob_list)
-        {
-            if (player != null)
-            {
-                if (player.getDisplayName().equals(event.getPlayer().getDisplayName()))
-                {
-                    return;
-                }
-            }
-        }
+        if (main.noob_list.contains(event.getPlayer().getUniqueId().toString())) return;
         limitEnchant(event.getItem().getItemStack());
     }
 
@@ -215,16 +209,7 @@ public class limitStuffListener implements Listener {
     public void onDrop(PlayerDropItemEvent event)
     {
         if (!main.uhc_stuffLimit) return;
-        for (Player player: main.noob_list)
-        {
-            if (player != null)
-            {
-                if (player.getDisplayName().equals(event.getPlayer().getDisplayName()))
-                {
-                    return;
-                }
-            }
-        }
+        if (main.noob_list.contains(event.getPlayer().getUniqueId().toString())) return;
         limitEnchant(event.getItemDrop().getItemStack());
     }
 
@@ -232,19 +217,11 @@ public class limitStuffListener implements Listener {
     public void onClick(PlayerInteractEvent event)
     {
         if (!main.uhc_stuffLimit) return;
-        for (Player player: main.noob_list)
-        {
-            if (player != null)
-            {
-                if (player.getDisplayName().equals(event.getPlayer().getDisplayName()))
-                {
-                    return;
-                }
-            }
-        }
+        if (main.noob_list.contains(event.getPlayer().getUniqueId().toString())) return;
         ItemStack itemStack = event.getItem();
         if (itemStack == null) return;
         limitEnchant(itemStack);
+
         if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK)
         {
             // NOTCH APPLE
@@ -271,20 +248,26 @@ public class limitStuffListener implements Listener {
     public void onInventoryClick(InventoryClickEvent event)
     {
         if (!main.uhc_stuffLimit) return;
-        for (Player player: main.noob_list)
-        {
-            if (player != null)
-            {
-                if (player.getDisplayName().equals(((Player)event.getWhoClicked()).getDisplayName()))
-                {
-                    return;
-                }
-            }
-        }
+        if (main.noob_list.contains(event.getWhoClicked().getUniqueId().toString())) return;
         limitEnchant(event.getCurrentItem());
         ItemStack itemStack = event.getCurrentItem();
-        if (itemStack == null) return;
-        if (itemStack.getType() == Material.DIAMOND_HELMET || itemStack.getType() == Material.DIAMOND_CHESTPLATE || itemStack.getType() == Material.DIAMOND_LEGGINGS || itemStack.getType() == Material.DIAMOND_BOOTS)
+        ItemStack itemStack1 = event.getCursor();
+        if (itemStack == null || itemStack1 == null) return;
+
+
+        List<Material> diamond_armor = new ArrayList<Material>();
+        diamond_armor.add(Material.DIAMOND_HELMET);
+        diamond_armor.add(Material.DIAMOND_CHESTPLATE);
+        diamond_armor.add(Material.DIAMOND_LEGGINGS);
+        diamond_armor.add(Material.DIAMOND_BOOTS);
+
+        List<Material> iron_armor = new ArrayList<Material>();
+        iron_armor.add(Material.IRON_HELMET);
+        iron_armor.add(Material.IRON_CHESTPLATE);
+        iron_armor.add(Material.IRON_LEGGINGS);
+        iron_armor.add(Material.IRON_BOOTS);
+
+        if (diamond_armor.contains(itemStack.getType()) || diamond_armor.contains(itemStack1.getType()))
         {
             if (event.getSlotType() == InventoryType.SlotType.ARMOR)
             {
@@ -301,7 +284,7 @@ public class limitStuffListener implements Listener {
                 }
             }
         }
-        if (itemStack.getType() == Material.IRON_HELMET || itemStack.getType() == Material.IRON_CHESTPLATE || itemStack.getType() == Material.IRON_LEGGINGS || itemStack.getType() == Material.IRON_BOOTS)
+        if (iron_armor.contains(itemStack.getType()) || iron_armor.contains(itemStack1.getType()))
         {
             if (event.getSlotType() == InventoryType.SlotType.ARMOR)
             {

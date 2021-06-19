@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -23,25 +24,19 @@ public class mainListener implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent event)
     {
+        event.setJoinMessage("§7[§6+§7] §6" + event.getPlayer().getDisplayName());
         if (!main.uhc_state.equals("waiting"))
         {
             Player player = event.getPlayer();
             boolean inGame = false;
 
-            for (int i = main.uhc_player_number;i > 0;i--)
+            if (main.uhc_player_list.contains(player.getUniqueId().toString()))
             {
-                if (main.uhc_player_list[i-1] != null)
-                {
-                    if (main.uhc_player_list[i-1].getDisplayName().equals(player.getDisplayName()))
-                    {
-                        main.uhc_player_list[i-1] = player;
-                        main.uhc_real_player_number ++;
-                        main.uhc_real_player_list[main.uhc_join_tracker] = player;
-                        main.uhc_join_tracker ++;
-                        inGame = true;
-                    }
-                }
+                inGame = true;
+                main.uhc_real_player_list.add(player.getUniqueId().toString());
+                main.uhc_real_player_number ++;
             }
+
             if (!inGame)
             {
                 main.resetPlayer(player);
@@ -54,62 +49,15 @@ public class mainListener implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent event)
     {
+        event.setQuitMessage("§7[§6-§7] §6" + event.getPlayer().getDisplayName());
         if (!main.uhc_state.equals("waiting"))
         {
             Player player = event.getPlayer();
 
-            for (int i = main.uhc_join_tracker;i > 0;i--)
+            if (main.uhc_real_player_list.contains(player.getUniqueId().toString()))
             {
-                if (main.uhc_real_player_list[i-1] != null)
-                {
-                    if (main.uhc_real_player_list[i-1].getDisplayName().equals(player.getDisplayName()))
-                    {
-                        main.uhc_real_player_list[i-1] = null;
-                        main.uhc_real_player_number --;
-                    }
-                }
+                main.uhc_real_player_list.remove(player.getUniqueId().toString());
+                main.uhc_real_player_number --;
             }
         }
-    }
-
-    @EventHandler
-    public void onDeath(PlayerDeathEvent event)
-    {
-        Player player = event.getEntity();
-        main.resetPlayer(player);
-        if (player.getWorld() == Bukkit.getWorld("world"))
-        {
-            player.teleport(new Location(Bukkit.getWorld("world"),0, 255, 0));
-        }
-        else
-        {
-            player.setGameMode(GameMode.SPECTATOR);
-        }
-
-        for (int i = main.uhc_join_tracker; i > 0; i--)
-        {
-            if (main.uhc_real_player_list[i-1] != null)
-            {
-                if (main.uhc_real_player_list[i-1].getDisplayName().equals(player.getDisplayName()))
-                {
-                    for(int j = main.uhc_player_number; j > 0; j--)
-                    {
-                        if (main.uhc_player_list[j-1] != null)
-                        {
-                            if (main.uhc_player_list[j-1].getDisplayName().equals(player.getDisplayName()))
-                            {
-                                main.uhc_player_list[j-1] = null;
-                            }
-                        }
-                    }
-                    main.uhc_player_number --;
-                    main.uhc_real_player_list[i-1] = null;
-                    main.uhc_real_player_number --;
-                }
-            }
-        }
-
-        // DROP GAPPLE ON DEATH
-        player.getWorld().dropItem(player.getLocation(), new ItemStack(Material.GOLDEN_APPLE));
-    }
-}
+    }}

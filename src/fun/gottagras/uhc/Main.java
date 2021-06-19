@@ -13,8 +13,9 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.Collection;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Main extends JavaPlugin
 {
@@ -30,6 +31,7 @@ public class Main extends JavaPlugin
         getServer().getPluginManager().registerEvents(new strengthPatch(this), this);
 
         // LISTERNERS
+        getServer().getPluginManager().registerEvents(new deathListener(this), this);
         getServer().getPluginManager().registerEvents(new the_end(this), this);
         getServer().getPluginManager().registerEvents(new nether(this), this);
         getServer().getPluginManager().registerEvents(new nofall(this), this);
@@ -57,6 +59,7 @@ public class Main extends JavaPlugin
         getCommand("noob").setExecutor(new noobCommand(this));
         getCommand("invsee").setExecutor(new invseeCommand(this));
         getCommand("item").setExecutor(new itemCommand(this));
+        getCommand("broadcast").setExecutor(new broadcastCommand(this));
 
         // SCOREBOARD
         Bukkit.getScheduler().runTaskTimer(this, new scoreBoard(this),0,20);
@@ -98,12 +101,15 @@ public class Main extends JavaPlugin
 
     // UHC PLAYERS
     public int uhc_player_number = 0;
-    public Player[] uhc_player_list = new Player[1024];
+    public List<String> uhc_player_list = new ArrayList<String>();
     public int uhc_real_player_number = 0;
-    public Player[] uhc_real_player_list = new Player[1024];
-    public int uhc_join_tracker = 0;
-    public Player[] noob_list = new Player[1024];
-    public int noob_tracker = 0;
+    public List<String> uhc_real_player_list = new ArrayList<String>();
+    public List<String> noob_list = new ArrayList<String>();
+
+    // PLAYER DAMAGER | KILL
+    public Map<String, String> last_damager = new HashMap<String, String>();
+    public Map<String, Long> last_damager_time = new HashMap<String, Long>();
+    public Map<String, Integer> player_kill = new HashMap<String, Integer>();
 
     // LIMIT DE STUFF
     public int uhc_stuffLimit_diamondArmor = 2;
@@ -197,11 +203,24 @@ public class Main extends JavaPlugin
     {
         if (uhc_real_player_number == 1)
         {
-            for (Player player:uhc_real_player_list)
+            for (Player player:Bukkit.getOnlinePlayers())
             {
-                if (player != null)
+                if (uhc_real_player_list.contains(player.getUniqueId().toString()))
                 {
                     Bukkit.broadcastMessage("§6" +player.getDisplayName()+ "§7 a win, GG!");
+                    Bukkit.broadcastMessage("§8=================");
+
+                    List<Integer> killsNb = new ArrayList<>(player_kill.values());
+                    Collections.sort(killsNb, Comparator.reverseOrder());
+
+                    Set<String> playersName = player_kill.keySet();
+                    for (int killNb : killsNb)
+                    {
+                        for (String playerName : playersName)
+                        {
+                            if (player_kill.get(playerName).equals(killNb)) Bukkit.broadcastMessage("      §d" + playerName + "§6 - §c" + killNb + " §7kills\n");
+                        }
+                    }
                     win = true;
                 }
             }
