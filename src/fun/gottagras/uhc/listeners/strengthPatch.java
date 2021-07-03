@@ -14,7 +14,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Collection;
 
 public class strengthPatch implements Listener {
-    private Main main;
+    private final Main main;
     public strengthPatch(Main main)
     {
         this.main = main;

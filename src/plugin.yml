@@ -38,6 +38,9 @@ commands:
     permission: host.use
     description: Commande de broadcast
     aliases: bc
+  team:
+    permission: player.use
+    description: Choisir sa team
 permissions:
   player.use:
     description: Players permisssions

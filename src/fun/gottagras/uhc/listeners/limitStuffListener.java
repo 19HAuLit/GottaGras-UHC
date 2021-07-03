@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 public class limitStuffListener implements Listener {
-    private Main main;
+    private final Main main;
     public limitStuffListener(Main main)
     {
         this.main = main;

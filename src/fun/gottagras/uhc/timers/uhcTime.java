@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class uhcTime extends BukkitRunnable implements Runnable
 {
-    private Main main;
+    private final Main main;
     public uhcTime(Main main)
     {
         this.main = main;

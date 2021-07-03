@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Random;
 
 public class allTreeDrop implements Listener {
-    private Main main;
+    private final Main main;
     public allTreeDrop(Main main)
     {
         this.main = main;

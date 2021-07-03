@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 
 public class broadcastCommand implements CommandExecutor
 {
-    private Main main;
+    private final Main main;
     public broadcastCommand(Main main)
     {
         this.main = main;
@@ -22,7 +22,7 @@ public class broadcastCommand implements CommandExecutor
         {
             msg.append(text + " ");
         }
-        Bukkit.broadcastMessage("§4" + msg.toString());
+        Bukkit.broadcastMessage("§4" + msg);
         return false;
     }
 }

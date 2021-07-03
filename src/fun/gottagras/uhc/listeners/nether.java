@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerPortalEvent;
 
 public class nether implements Listener
 {
-    private Main main;
+    private final Main main;
     public nether(Main main)
     {
         this.main = main;

@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class noobCommand implements CommandExecutor {
-    private Main main;
+    private final Main main;
     public noobCommand(Main main)
     {
         this.main = main;
@@ -22,7 +22,7 @@ public class noobCommand implements CommandExecutor {
             Player noob = null;
             for (Player player: Bukkit.getOnlinePlayers())
             {
-                if (player.getDisplayName().equals(strings[0]))
+                if (player.getName().equals(strings[0]))
                 {
                     noob = player;
                 }

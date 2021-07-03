@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class limitStuffMenu implements Listener {
-    private Main main;
+    private final Main main;
     public limitStuffMenu(Main main)
     {
         this.main = main;

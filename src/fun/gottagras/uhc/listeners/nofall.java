@@ -8,7 +8,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 
 public class nofall implements Listener
 {
-    private Main main;
+    private final Main main;
     public nofall(Main main)
     {
         this.main = main;

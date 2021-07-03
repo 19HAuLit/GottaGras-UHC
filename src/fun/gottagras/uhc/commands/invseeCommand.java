@@ -13,7 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class invseeCommand implements CommandExecutor {
-    private Main main;
+    private final Main main;
     public invseeCommand(Main main)
     {
         this.main = main;

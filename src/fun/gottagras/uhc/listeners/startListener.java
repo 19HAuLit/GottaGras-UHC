@@ -12,7 +12,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class startListener implements Listener
 {
-    private Main main;
+    private final Main main;
     public startListener(Main main)
     {
         this.main = main;

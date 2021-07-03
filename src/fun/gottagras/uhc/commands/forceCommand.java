@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 
 public class forceCommand implements CommandExecutor
 {
-    private Main main;
+    private final Main main;
     public forceCommand(Main main)
     {
         this.main = main;

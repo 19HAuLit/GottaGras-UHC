@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class itemCommand implements CommandExecutor {
-    private Main main;
+    private final Main main;
     public itemCommand(Main main)
     {
         this.main = main;

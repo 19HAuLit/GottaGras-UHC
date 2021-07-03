@@ -11,7 +11,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 public class reviveCommand implements CommandExecutor {
-    private Main main;
+    private final Main main;
     public reviveCommand(Main main)
     {
         this.main = main;
@@ -25,7 +25,7 @@ public class reviveCommand implements CommandExecutor {
         {
             for (Player player:Bukkit.getOnlinePlayers())
             {
-                if (player.getDisplayName().equals(strings[0]))
+                if (player.getName().equals(strings[0]))
                 {
                     if (!main.uhc_player_list.contains(player.getUniqueId().toString()))
                     {

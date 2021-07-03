@@ -10,13 +10,12 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class startCommand implements CommandExecutor {
-    private Main main;
+    private final Main main;
     public startCommand(Main main)
     {
         this.main = main;
@@ -146,6 +145,7 @@ public class startCommand implements CommandExecutor {
             main.uhc_player_number ++;
             main.uhc_real_player_list.add(player.getUniqueId().toString());
             main.uhc_real_player_number ++;
+            main.resetPlayer(player);
         }
 
         // SET WORLD BORDER
@@ -230,12 +230,45 @@ public class startCommand implements CommandExecutor {
                 break;
         }
 
-        // TP PLAYER + GIVE STUFF
+        for (Player player : Bukkit.getOnlinePlayers())
+        {
+            boolean haveTeam = false;
+            // CHECK IF PLAYER HAVE TEAM
+            for (String team : main.uhc_team.keySet())
+            {
+                if (main.uhc_team.get(team).contains(player.getName())) haveTeam = true;
+            }
+
+            // SEND PLAYER IN A TEAM
+            for (String team : main.uhc_team.keySet())
+            {
+                if (!haveTeam && main.uhc_team.get(team).size() < main.uhc_team_size)
+                {
+                    main.uhc_team.get(team).add(player.getName());
+                    main.playerAddColorTeam(player);
+
+                    haveTeam = true;
+                }
+            }
+
+        }
+
+
+        for (String team : main.uhc_team.keySet())
+        {
+            // TP PLAYERS
+            Location location = main.randomLocation();
+            for (Player player : Bukkit.getOnlinePlayers())
+            {
+                if (main.uhc_team.get(team).contains(player.getName())) player.teleport(location);
+            }
+        }
+
+        // GIVE STUFF
         for (Player player: Bukkit.getOnlinePlayers())
         {
             if (main.uhc_player_list.contains(player.getUniqueId().toString()))
             {
-                main.randomTp(player);
                 switch (main.uhc_format)
                 {
                     case "meetup":

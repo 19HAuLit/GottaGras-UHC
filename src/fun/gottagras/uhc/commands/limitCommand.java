@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class limitCommand implements CommandExecutor {
-    private Main main;
+    private final Main main;
     public limitCommand(Main main)
     {
         this.main = main;

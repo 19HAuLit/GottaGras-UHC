@@ -3,6 +3,7 @@ package fun.gottagras.uhc;
 import fun.gottagras.uhc.commands.*;
 import fun.gottagras.uhc.listeners.*;
 import fun.gottagras.uhc.menu.limitStuffMenu;
+import fun.gottagras.uhc.menu.teamMenu;
 import fun.gottagras.uhc.menu.uhcMenu;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -14,8 +15,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class Main extends JavaPlugin
 {
@@ -31,6 +30,8 @@ public class Main extends JavaPlugin
         getServer().getPluginManager().registerEvents(new strengthPatch(this), this);
 
         // LISTERNERS
+        getServer().getPluginManager().registerEvents(new pvpListener(this), this);
+        getServer().getPluginManager().registerEvents(new teamMenu(this), this);
         getServer().getPluginManager().registerEvents(new deathListener(this), this);
         getServer().getPluginManager().registerEvents(new the_end(this), this);
         getServer().getPluginManager().registerEvents(new nether(this), this);
@@ -60,6 +61,7 @@ public class Main extends JavaPlugin
         getCommand("invsee").setExecutor(new invseeCommand(this));
         getCommand("item").setExecutor(new itemCommand(this));
         getCommand("broadcast").setExecutor(new broadcastCommand(this));
+        getCommand("team").setExecutor(new teamCommand(this));
 
         // SCOREBOARD
         Bukkit.getScheduler().runTaskTimer(this, new scoreBoard(this),0,20);
@@ -72,6 +74,41 @@ public class Main extends JavaPlugin
             Location spawn = new Location(Bukkit.getWorld("world"), 0, 255, 0);
             player.teleport(spawn);
             resetPlayer(player);
+        }
+
+        // CREATION DES TEAMS
+        nameList.add("Bleu");
+        nameList.add("Rouge");
+        nameList.add("Vert");
+        nameList.add("Jaune");
+        nameList.add("Rose");
+        colorList.add("§1");
+        colorList.add("§4");
+        colorList.add("§2");
+        colorList.add("§e");
+        colorList.add("§d");
+        symbolList.add("");
+        symbolList.add("♥");
+        symbolList.add("♦");
+        symbolList.add("▲");
+        symbolList.add("☼");
+        symbolList.add("•");
+        for (int i = 0; i < symbolList.size(); i++)
+        {
+            for (int j = 0; j < colorList.size(); j++)
+            {
+                uhc_team.put(colorList.get(j)+symbolList.get(i)+nameList.get(j), new ArrayList<String>());
+            }
+        }
+    }
+
+    @Override
+    public void onDisable()
+    {
+        for (Player player : Bukkit.getOnlinePlayers())
+        {
+            player.setDisplayName(player.getName());
+            player.setPlayerListName(player.getName());
         }
     }
 
@@ -92,6 +129,9 @@ public class Main extends JavaPlugin
     public boolean uhc_skyhigh = false;
     public boolean uhc_nether = true;
     public boolean uhc_the_end = true;
+    public int uhc_team_size = 1;
+    public boolean uhc_team_friendly_fire = false;
+    public boolean uhc_team_only_one_winner = false;
 
     // UHC TIME
     public int uhc_invincible = 30;
@@ -105,6 +145,12 @@ public class Main extends JavaPlugin
     public int uhc_real_player_number = 0;
     public List<String> uhc_real_player_list = new ArrayList<String>();
     public List<String> noob_list = new ArrayList<String>();
+
+    // UHC TEAMS
+    public Map<String, List<String>> uhc_team = new HashMap<>();
+    public List<String> nameList = new ArrayList<String>();
+    public List<String> colorList = new ArrayList<String>();
+    public List<String> symbolList = new ArrayList<String>();
 
     // PLAYER DAMAGER | KILL
     public Map<String, String> last_damager = new HashMap<String, String>();
@@ -199,29 +245,74 @@ public class Main extends JavaPlugin
         player.updateInventory();
     }
 
+    public boolean checkOneTeamLeft()
+    {
+        int team_alive = 0;
+        for (String team : uhc_team.keySet())
+        {
+            boolean teamOk = false;
+            for (String uuid : uhc_real_player_list)
+            {
+                for (Player player : Bukkit.getOnlinePlayers())
+                {
+                    if (player.getUniqueId().toString().equals(uuid))
+                    {
+                        if (uhc_team.get(team).contains(player.getName()) && !teamOk)
+                        {
+                            teamOk = true;
+                            team_alive++;
+                        }
+                    }
+                }
+            }
+        }
+
+        return team_alive == 1;
+    }
+
     public void checkWin()
     {
-        if (uhc_real_player_number == 1)
+        if (uhc_real_player_number == 1 && uhc_team_only_one_winner)
         {
             for (Player player:Bukkit.getOnlinePlayers())
             {
                 if (uhc_real_player_list.contains(player.getUniqueId().toString()))
                 {
                     Bukkit.broadcastMessage("§6" +player.getDisplayName()+ "§7 a win, GG!");
-                    Bukkit.broadcastMessage("§8=================");
-
-                    List<Integer> killsNb = new ArrayList<>(player_kill.values());
-                    Collections.sort(killsNb, Comparator.reverseOrder());
-
-                    Set<String> playersName = player_kill.keySet();
-                    for (int killNb : killsNb)
-                    {
-                        for (String playerName : playersName)
-                        {
-                            if (player_kill.get(playerName).equals(killNb)) Bukkit.broadcastMessage("      §d" + playerName + "§6 - §c" + killNb + " §7kills\n");
-                        }
-                    }
                     win = true;
+                }
+            }
+        }
+        else if (checkOneTeamLeft() && !uhc_team_only_one_winner)
+        {
+            for (Player player:Bukkit.getOnlinePlayers())
+            {
+                if (uhc_real_player_list.contains(player.getUniqueId().toString()))
+                {
+                    Bukkit.broadcastMessage("§6" +player.getDisplayName()+ "§7 a win, GG!");
+                }
+            }
+            win = true;
+        }
+
+        if (win)
+        {
+            Bukkit.broadcastMessage("§8=================");
+
+            List<Integer> killsNb = new ArrayList<>(player_kill.values());
+            killsNb.sort(Comparator.reverseOrder());
+            int previousKillNb = -1;
+
+            Set<String> playersName = player_kill.keySet();
+            for (int killNb : killsNb)
+            {
+                if (previousKillNb != killNb)
+                {
+                    previousKillNb = killNb;
+                    for (String playerName : playersName)
+                    {
+                        if (player_kill.get(playerName).equals(killNb)) Bukkit.broadcastMessage("      §d" + playerName + "§6 - §c" + killNb + " §7kills\n");
+                    }
                 }
             }
         }
@@ -235,6 +326,31 @@ public class Main extends JavaPlugin
         int z = map_size/2-random.nextInt(map_size);
         Location location = new Location(Bukkit.getWorld("uhc"), x, 255, z);
         player.teleport(location);
+    }
+
+    public Location randomLocation()
+    {
+        Random random = new Random();
+        int map_size = (int) Bukkit.getWorld("uhc").getWorldBorder().getSize();
+        int x = map_size/2-random.nextInt(map_size);
+        int z = map_size/2-random.nextInt(map_size);
+        return new Location(Bukkit.getWorld("uhc"), x, 255, z);
+    }
+
+    public void playerAddColorTeam(Player player)
+    {
+        for (int i = 0; i < symbolList.size(); i++)
+        {
+            for (int j = 0; j < colorList.size(); j++)
+            {
+                String key = colorList.get(j) + symbolList.get(i) + nameList.get(j);
+                if (uhc_team.get(key).contains(player.getName()))
+                {
+                    player.setDisplayName(colorList.get(j) + symbolList.get(i) + " " + player.getName());
+                    player.setPlayerListName(colorList.get(j) + symbolList.get(i) + " " + player.getName());
+                }
+            }
+        }
     }
 
     public void fileDelete(File file)

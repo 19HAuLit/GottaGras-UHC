@@ -15,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class goneFishing implements Listener
 {
-    private Main main;
+    private final Main main;
     public goneFishing(Main main)
     {
         this.main = main;

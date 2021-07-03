@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Random;
 
 public class superHeroes implements Listener {
-    private Main main;
+    private final Main main;
     public superHeroes(Main main)
     {
         this.main = main;

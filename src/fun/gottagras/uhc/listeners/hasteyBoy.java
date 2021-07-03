@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class hasteyBoy implements Listener {
-    private Main main;
+    private final Main main;
     public hasteyBoy(Main main)
     {
         this.main = main;

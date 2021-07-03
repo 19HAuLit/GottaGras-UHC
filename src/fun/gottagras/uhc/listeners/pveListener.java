@@ -10,7 +10,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 public class pveListener implements Listener {
-    private Main main;
+    private final Main main;
     public pveListener(Main main)
     {
         this.main = main;

@@ -9,7 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
 
 public class the_end implements Listener {
-    private Main main;
+    private final Main main;
     public the_end(Main main)
     {
         this.main = main;

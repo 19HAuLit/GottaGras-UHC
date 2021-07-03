@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class infoCommand implements CommandExecutor {
-    private Main main;
+    private final Main main;
     public infoCommand(Main main)
     {
         this.main = main;

@@ -3,7 +3,6 @@ package fun.gottagras.uhc.menu;
 import fun.gottagras.uhc.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class uhcMenu implements Listener
 {
-    private Main main;
+    private final Main main;
     public uhcMenu(Main main)
     {
         this.main = main;
@@ -38,6 +37,7 @@ public class uhcMenu implements Listener
                         // NAME
                         String itemName = itemStack.getItemMeta().getDisplayName();
                         String formatName = format().getItemMeta().getDisplayName();
+                        String teamName = team().getItemMeta().getDisplayName();
                         String cutCleanName = cutClean().getItemMeta().getDisplayName();
                         String allTreeDropName = allTreeDrop().getItemMeta().getDisplayName();
                         String hasteyBoyName = hasteyBoy().getItemMeta().getDisplayName();
@@ -47,6 +47,8 @@ public class uhcMenu implements Listener
                         String skyHighName = skyHigh().getItemMeta().getDisplayName();
                         String netherName = nether().getItemMeta().getDisplayName();
                         String theEndName = theEnd().getItemMeta().getDisplayName();
+                        String onlyOneWinnerName = onlyOneWinner().getItemMeta().getDisplayName();
+                        String friendlyFireName = friendlyFire().getItemMeta().getDisplayName();
 
                         if (itemName == null) return;
 
@@ -86,6 +88,17 @@ public class uhcMenu implements Listener
                                     break;
                             }
                         }
+                        if (itemName.equals(teamName))
+                        {
+                            if (main.uhc_team_size == 4)
+                            {
+                                main.uhc_team_size = 1;
+                            }
+                            else
+                            {
+                                main.uhc_team_size += 1;
+                            }
+                        }
                         else if (itemName.equals(cutCleanName))
                         {
                             main.uhc_cutclean = !main.uhc_cutclean;
@@ -122,6 +135,14 @@ public class uhcMenu implements Listener
                         {
                             main.uhc_the_end = !main.uhc_the_end;
                         }
+                        else if (itemName.equals(onlyOneWinnerName))
+                        {
+                            main.uhc_team_only_one_winner = !main.uhc_team_only_one_winner;
+                        }
+                        else if (itemName.equals(friendlyFireName))
+                        {
+                            main.uhc_team_friendly_fire = !main.uhc_team_friendly_fire;
+                        }
                     }
                 }
             }
@@ -133,6 +154,7 @@ public class uhcMenu implements Listener
     {
         Inventory inventory = Bukkit.createInventory(null, 36, "§7UHC");
         inventory.setItem(0, format());
+        inventory.setItem(8, team());
         inventory.setItem(10, cutClean());
         inventory.setItem(11, allTreeDrop());
         inventory.setItem(12, hasteyBoy());
@@ -142,6 +164,8 @@ public class uhcMenu implements Listener
         inventory.setItem(16, skyHigh());
         inventory.setItem(19, nether());
         inventory.setItem(20, theEnd());
+        inventory.setItem(27, friendlyFire());
+        inventory.setItem(35, onlyOneWinner());
         return inventory;
     }
 
@@ -150,6 +174,33 @@ public class uhcMenu implements Listener
         ItemStack itemStack = new ItemStack(Material.GRASS);
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName("§7Mode: §6"+main.uhc_format);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack team()
+    {
+        ItemStack itemStack = new ItemStack(Material.IRON_SWORD);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("§7Team de §6"+main.uhc_team_size);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack onlyOneWinner()
+    {
+        ItemStack itemStack = new ItemStack(Material.DIAMOND_BLOCK);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("§7OnlyOneWinner: §6"+main.uhc_team_only_one_winner);
+        itemStack.setItemMeta(itemMeta);
+        return itemStack;
+    }
+
+    public ItemStack friendlyFire()
+    {
+        ItemStack itemStack = new ItemStack(Material.DIAMOND_SWORD);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        itemMeta.setDisplayName("§7Friendly Fire: §6"+main.uhc_team_friendly_fire);
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }

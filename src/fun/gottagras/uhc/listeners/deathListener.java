@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Date;
 
 public class deathListener implements Listener {
-    private Main main;
+    private final Main main;
     public deathListener(Main main)
     {
         this.main = main;

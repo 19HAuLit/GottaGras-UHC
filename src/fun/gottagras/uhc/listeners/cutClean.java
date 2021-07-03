@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class cutClean implements Listener {
-    private Main main;
+    private final Main main;
     public cutClean(Main main)
     {
         this.main = main;
